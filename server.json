@@ -1,0 +1,25 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "ai.spritecook/generate",
+  "title": "SpriteCook",
+  "description": "Generate game sprites and assets from text prompts for game development.",
+  "repository": {
+    "url": "https://github.com/SpriteCook/skills",
+    "source": "github"
+  },
+  "version": "0.2.8",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://api.spritecook.ai/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Your SpriteCook API key (Bearer sc_live_...)",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}

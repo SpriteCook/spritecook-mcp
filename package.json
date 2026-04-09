@@ -1,0 +1,40 @@
+{
+  "name": "spritecook-mcp",
+  "version": "0.2.13",
+  "mcpName": "ai.spritecook/generate",
+  "description": "SpriteCook MCP Server - Connect your AI agent (Cursor, VS Code, Claude) to SpriteCook for pixel art and game asset generation.",
+  "keywords": [
+    "spritecook",
+    "mcp",
+    "model-context-protocol",
+    "pixel-art",
+    "game-assets",
+    "ai-agent",
+    "cursor",
+    "claude",
+    "vscode",
+    "cli"
+  ],
+  "homepage": "https://spritecook.ai",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spritecook/spritecook-mcp.git"
+  },
+  "license": "MIT",
+  "author": "SpriteCook <hello@spritecook.ai>",
+  "type": "module",
+  "bin": {
+    "spritecook-mcp": "bin/cli.mjs"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "README.md"
+  ],
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "open": "^10.1.0",
+    "ora": "^8.1.0",
+    "prompts": "^2.4.2"
+  }
+}
