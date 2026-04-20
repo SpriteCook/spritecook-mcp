@@ -4,7 +4,7 @@
   "title": "SpriteCook",
   "description": "Generate game sprites and assets from text prompts for game development.",
   "repository": {
-    "url": "https://github.com/SpriteCook/skills",
+    "url": "https://github.com/SpriteCook/spritecook-mcp",
     "source": "github"
   },
   "version": "0.2.8",

@@ -15,6 +15,8 @@ This will:
 3. **Configure** MCP connections automatically
 4. **Install** an optional agent skill for smarter AI integration
 
+The optional skill includes current guidance for recovering lost asset IDs with `list_recent_assets(...)` and using the primary asset URL instead of lower-level variant fields.
+
 ## What You Get
 
 After setup, your AI agent can generate pixel art and game assets directly:
