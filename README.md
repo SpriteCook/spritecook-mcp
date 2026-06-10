@@ -15,7 +15,7 @@ This will:
 3. **Configure** MCP connections automatically
 4. **Install** an optional agent skill for smarter AI integration
 
-The optional skill includes current guidance for recovering lost asset IDs with `list_recent_assets(...)` and using the primary asset URL instead of lower-level variant fields.
+The optional skills include current guidance for model discovery, GPT-Image-2 quality settings, guided character workflows, recovering lost asset IDs with `list_recent_assets(...)`, using the primary asset URL instead of lower-level variant fields, and exporting SpriteCook character animations into Godot-ready scenes.
 
 ## What You Get
 

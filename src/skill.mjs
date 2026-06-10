@@ -18,6 +18,10 @@ const SKILLS = [
     name: 'spritecook-animate-assets',
     rawUrl: 'https://raw.githubusercontent.com/SpriteCook/skills/main/skills/spritecook-animate-assets/SKILL.md',
   },
+  {
+    name: 'spritecook-use-assets-in-godot',
+    rawUrl: 'https://raw.githubusercontent.com/SpriteCook/skills/main/skills/spritecook-use-assets-in-godot/SKILL.md',
+  },
 ];
 
 /**
