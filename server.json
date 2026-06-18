@@ -2,12 +2,12 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "ai.spritecook/generate",
   "title": "SpriteCook",
-  "description": "Generate game sprites and assets from text prompts for game development.",
+  "description": "Generate, use saved presets, import, clean up backgrounds, organize, inspect, and animate game sprites and assets for game development.",
   "repository": {
     "url": "https://github.com/SpriteCook/spritecook-mcp",
     "source": "github"
   },
-  "version": "0.2.8",
+  "version": "0.2.17",
   "remotes": [
     {
       "type": "streamable-http",

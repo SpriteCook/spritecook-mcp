@@ -15,12 +15,24 @@ const SKILLS = [
     rawUrl: 'https://raw.githubusercontent.com/SpriteCook/skills/main/skills/spritecook-generate-sprites/SKILL.md',
   },
   {
+    name: 'spritecook-generate-tilesets',
+    rawUrl: 'https://raw.githubusercontent.com/SpriteCook/skills/main/skills/spritecook-generate-tilesets/SKILL.md',
+  },
+  {
     name: 'spritecook-animate-assets',
     rawUrl: 'https://raw.githubusercontent.com/SpriteCook/skills/main/skills/spritecook-animate-assets/SKILL.md',
   },
   {
+    name: 'spritecook-use-presets',
+    rawUrl: 'https://raw.githubusercontent.com/SpriteCook/skills/main/skills/spritecook-use-presets/SKILL.md',
+  },
+  {
     name: 'spritecook-use-assets-in-godot',
     rawUrl: 'https://raw.githubusercontent.com/SpriteCook/skills/main/skills/spritecook-use-assets-in-godot/SKILL.md',
+  },
+  {
+    name: 'spritecook-use-dual-grid-tilesets',
+    rawUrl: 'https://raw.githubusercontent.com/SpriteCook/skills/main/skills/spritecook-use-dual-grid-tilesets/SKILL.md',
   },
 ];
 

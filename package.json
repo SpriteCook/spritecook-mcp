@@ -1,8 +1,8 @@
 {
   "name": "spritecook-mcp",
-  "version": "0.2.14",
+  "version": "0.2.17",
   "mcpName": "ai.spritecook/generate",
-  "description": "SpriteCook MCP Server - Connect your AI agent (Cursor, VS Code, Claude) to SpriteCook for pixel art and game asset generation.",
+  "description": "SpriteCook MCP Server - Connect your AI agent to SpriteCook for game asset generation, saved presets, import, background cleanup, asset organization, inspection, and animation.",
   "keywords": [
     "spritecook",
     "mcp",

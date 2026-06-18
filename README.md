@@ -15,7 +15,7 @@ This will:
 3. **Configure** MCP connections automatically
 4. **Install** an optional agent skill for smarter AI integration
 
-The optional skills include current guidance for model discovery, GPT-Image-2 quality settings, guided character workflows, recovering lost asset IDs with `list_recent_assets(...)`, using the primary asset URL instead of lower-level variant fields, and exporting SpriteCook character animations into Godot-ready scenes.
+The optional skills include current guidance for model discovery, GPT-Image-2 quality settings, guided character workflows, saved presets, multi-image style guide references, importing local image bytes with `import_asset(...)`, cleaning up backgrounds with `remove_background(...)`, renaming assets with `update_asset_label(...)`, recovering lost asset IDs with `list_recent_assets(...)`, using the primary asset URL instead of lower-level variant fields, and exporting SpriteCook character animations into Godot-ready scenes.
 
 ## What You Get
 
@@ -26,6 +26,14 @@ After setup, your AI agent can generate pixel art and game assets directly:
 > "Create a character sprite sheet for my platformer game"
 
 > "Make a set of potion icons with transparent backgrounds"
+
+> "Use my character preset for a new idle sprite"
+
+> "Import this local boss PNG, then animate it with a slow idle motion"
+
+> "Remove the background from this character asset and give me the transparent PNG"
+
+> "Rename the generated sword asset to Iron Sword Pickup"
 
 ## Manual Configuration
 
