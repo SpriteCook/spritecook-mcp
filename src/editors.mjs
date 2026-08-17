@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { homedir } from 'node:os';
 import { success, warn, info } from './ui.mjs';
-import { getMcpUrl } from './config.mjs';
+import { getMcpOAuthUrl, getMcpUrl } from './config.mjs';
 
 // ── Read existing key ───────────────────────────────────────────────────
 
@@ -123,6 +123,12 @@ function isRunningInWindsurf() {
   return false;
 }
 
+function isRunningInGrok() {
+  const env = process.env;
+  if (env.GROK_HOME || env.GROK_BUILD || env.GROK_CLI) return true;
+  return env.TERM_PROGRAM === 'grok';
+}
+
 // ── Editor definitions ──────────────────────────────────────────────────
 
 /**
@@ -144,6 +150,7 @@ export function detectEditors() {
   const inVSCode = isRunningInVSCode() && !inCursor && !isRunningInAntigravity() && !isRunningInWindsurf();
   const inAntigravity = isRunningInAntigravity();
   const inWindsurf = isRunningInWindsurf();
+  const inGrok = isRunningInGrok();
 
   // ── Cursor ──────────────────────────────────────────────────
   editors.push({
@@ -244,6 +251,27 @@ export function detectEditors() {
     skillDirs: {
       project: null, // Windsurf uses Cascade / AGENTS.md, no standard skills dir
       global: null,
+    },
+  });
+
+  // ── Grok Build (xAI) ────────────────────────────────────────
+  // Grok owns the OAuth browser flow and token refresh. Do not write a
+  // SpriteCook API key into its config or credentials file.
+  const grokGlobalPath = join(home, '.grok', 'config.toml');
+  const grokProjectPath = join(cwd, '.grok', 'config.toml');
+  editors.push({
+    name: 'Grok Build',
+    detected: inGrok || existsSync(grokGlobalPath) || existsSync(grokProjectPath),
+    scopes: ['project', 'global'],
+    defaultScope: 'global',
+    authMode: 'oauth',
+    configPath: (scope) => scope === 'project' ? grokProjectPath : grokGlobalPath,
+    write: (_apiKey, scope) => writeGrokConfig(
+      scope === 'project' ? grokProjectPath : grokGlobalPath
+    ),
+    skillDirs: {
+      project: join(cwd, '.grok', 'skills', 'spritecook'),
+      global: join(home, '.grok', 'skills', 'spritecook'),
     },
   });
 
@@ -459,6 +487,29 @@ function writeCodexConfig(configPath, apiKey) {
 
   content = content.trimEnd() + '\n' + block;
 
+  ensureDir(join(configPath, '..'));
+  writeFileSync(configPath, content, 'utf-8');
+}
+
+export function writeGrokConfig(configPath) {
+  const mcpUrl = getMcpOAuthUrl();
+
+  let content = '';
+  if (existsSync(configPath)) {
+    try { content = readFileSync(configPath, 'utf-8'); } catch { /* start fresh */ }
+  }
+
+  content = content.replace(/\[mcp_servers\.spritecook[^\]]*\][^\[]*/g, '');
+  const block = [
+    '',
+    '[mcp_servers.spritecook]',
+    `url = "${mcpUrl}"`,
+    'enabled = true',
+    'tool_timeout_sec = 6000',
+    '',
+  ].join('\n');
+
+  content = content.trimEnd() + '\n' + block;
   ensureDir(join(configPath, '..'));
   writeFileSync(configPath, content, 'utf-8');
 }

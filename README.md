@@ -1,6 +1,6 @@
 # spritecook-mcp
 
-Connect your AI agent (Cursor, VS Code, Claude Desktop, Claude Code) to [SpriteCook](https://spritecook.ai) for AI-powered pixel art and game asset generation.
+Connect your AI agent (Cursor, VS Code, Claude, Codex, Grok Build, and others) to [SpriteCook](https://spritecook.ai) for AI-powered pixel art and game asset generation.
 
 ## Quick Setup
 
@@ -10,12 +10,12 @@ npx spritecook-mcp setup
 
 This will:
 
-1. **Authenticate** your SpriteCook account (browser-based or manual API key)
-2. **Detect** your editors (Cursor, VS Code, Claude Desktop, Claude Code)
+1. **Detect** your installed AI clients, including Grok Build
+2. **Authenticate** with an API key where required; Grok Build uses host-managed OAuth
 3. **Configure** MCP connections automatically
 4. **Install** an optional agent skill for smarter AI integration
 
-The optional skills include current guidance for model discovery, GPT-Image-2 quality settings, guided character workflows, saved presets, multi-image style guide references, importing local image bytes with `import_asset(...)`, cleaning up backgrounds with `remove_background(...)`, renaming assets with `update_asset_label(...)`, recovering lost asset IDs with `list_recent_assets(...)`, using the primary asset URL instead of lower-level variant fields, and exporting SpriteCook character animations into Godot-ready scenes.
+The optional skills include current guidance for asynchronous job polling, canonical `sprite_url` output, model discovery, GPT-Image-2 quality settings, guided character workflows, saved presets, multi-image style guide references, local-file uploads, background cleanup, asset organization and recovery, and Godot-ready character exports.
 
 ## What You Get
 
@@ -67,6 +67,19 @@ If you prefer to configure manually, add this to your editor's MCP config:
   }
 }
 ```
+
+**Grok Build** (`.grok/config.toml` or `~/.grok/config.toml`):
+
+```toml
+[mcp_servers.spritecook]
+url = "https://api.spritecook.ai/mcp/oauth"
+enabled = true
+tool_timeout_sec = 6000
+```
+
+Open `/mcps` in Grok Build and authenticate `spritecook`. Grok stores and refreshes OAuth credentials without exposing them to the model. If tools do not appear, run `grok mcp doctor spritecook` and `grok inspect`.
+
+The repository also includes a root `.mcp.json` for a Grok Build marketplace submission. Publishing the marketplace listing is a separate release step.
 
 ## Environment Variables
 

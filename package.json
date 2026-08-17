@@ -1,8 +1,8 @@
 {
   "name": "spritecook-mcp",
-  "version": "0.2.17",
+  "version": "0.2.18",
   "mcpName": "ai.spritecook/generate",
-  "description": "SpriteCook MCP Server - Connect your AI agent to SpriteCook for game asset generation, saved presets, import, background cleanup, asset organization, inspection, and animation.",
+  "description": "SpriteCook MCP Server - Connect Cursor, VS Code, Claude, Codex, Grok Build, and other AI agents to SpriteCook for game asset generation and animation.",
   "keywords": [
     "spritecook",
     "mcp",
@@ -12,6 +12,9 @@
     "ai-agent",
     "cursor",
     "claude",
+    "codex",
+    "grok",
+    "grok-build",
     "vscode",
     "cli"
   ],
@@ -26,7 +29,11 @@
   "bin": {
     "spritecook-mcp": "bin/cli.mjs"
   },
+  "scripts": {
+    "test": "node --test"
+  },
   "files": [
+    ".mcp.json",
     "bin/",
     "src/",
     "README.md"

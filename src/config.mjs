@@ -11,3 +11,8 @@ export function getApiBase() {
 export function getMcpUrl() {
   return `${getApiBase()}/mcp/`;
 }
+
+/** Get the OAuth-enabled MCP URL used by hosts that manage OAuth themselves. */
+export function getMcpOAuthUrl() {
+  return `${getApiBase()}/mcp/oauth`;
+}
