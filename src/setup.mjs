@@ -123,19 +123,25 @@ export async function run() {
 
   // ── Step 4: Optional agent skill ─────────────────────────────────
   step(4, 'Agent Skill (optional)');
-  await maybeInstallSkill(selected);
+  const skillEditors = selected.filter((e) => !e.bundlesSkills);
+  if (selected.length > 0 && skillEditors.length === 0) {
+    info('The SpriteCook plugin already includes the agent skills.');
+  } else {
+    await maybeInstallSkill(skillEditors);
+  }
 
   // ── Done ──────────────────────────────────────────────────────────
   const configuredNames = selected.map((e) => e.name);
   const hasCursor = configuredNames.includes('Cursor');
   const hasVSCode = configuredNames.includes('VS Code');
   const hasGrok = configuredNames.includes('Grok Build');
+  const hasAntigravity = configuredNames.includes('Antigravity');
 
   console.log();
   console.log(chalk.bold.green('  Setup complete!'));
   console.log();
 
-  if (hasCursor || hasVSCode || hasGrok) {
+  if (hasCursor || hasVSCode || hasGrok || hasAntigravity) {
     console.log(chalk.bgYellow.black.bold('  ACTION REQUIRED  '));
     console.log();
     if (hasCursor) {
@@ -154,6 +160,13 @@ export async function run() {
       console.log(chalk.white.bold('  Grok Build:'));
       console.log(chalk.white('    1. Open /mcps and authenticate "spritecook"'));
       console.log(chalk.white('    2. Run "grok mcp doctor spritecook" if tools do not appear'));
+    }
+    if (hasAntigravity) {
+      if (hasCursor || hasVSCode || hasGrok) console.log();
+      console.log(chalk.white.bold('  Antigravity:'));
+      console.log(chalk.white('    1. Restart Antigravity so it loads the SpriteCook plugin'));
+      console.log(chalk.white('    2. App or editor: Customizations > Installed > MCP Servers > Authenticate "spritecook"'));
+      console.log(chalk.white('       CLI: type /plugin, open Installed > spritecook and choose Sign in'));
     }
     console.log();
     console.log(chalk.dim('  ─────────────────────────────────────────'));

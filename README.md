@@ -1,6 +1,6 @@
 # spritecook-mcp
 
-Connect your AI agent (Cursor, VS Code, Claude, Codex, Grok Build, and others) to [SpriteCook](https://spritecook.ai) for AI-powered pixel art and game asset generation.
+Connect your AI agent (Cursor, VS Code, Claude, Codex, Grok Build, Antigravity, and others) to [SpriteCook](https://spritecook.ai) for AI-powered pixel art and game asset generation.
 
 ## Quick Setup
 
@@ -10,8 +10,8 @@ npx spritecook-mcp setup
 
 This will:
 
-1. **Detect** your installed AI clients, including Grok Build
-2. **Authenticate** with an API key where required; Grok Build uses host-managed OAuth
+1. **Detect** your installed AI clients, including Grok Build and Antigravity
+2. **Authenticate** with an API key where required; Grok Build and Antigravity use host-managed OAuth
 3. **Configure** MCP connections automatically
 4. **Install** an optional agent skill for smarter AI integration
 
@@ -80,6 +80,14 @@ tool_timeout_sec = 6000
 Open `/mcps` in Grok Build and authenticate `spritecook`. Grok stores and refreshes OAuth credentials without exposing them to the model. If tools do not appear, run `grok mcp doctor spritecook` and `grok inspect`.
 
 The repository also includes a root `.mcp.json` for a Grok Build marketplace submission. Publishing the marketplace listing is a separate release step.
+
+**Antigravity**: setup installs the [SpriteCook plugin for Antigravity](https://github.com/SpriteCook/antigravity-plugin), which bundles the MCP server and the skills. To install it yourself:
+
+```bash
+agy plugin install https://github.com/SpriteCook/antigravity-plugin
+```
+
+Then sign in once. In the app or editor, open **Customizations > Installed** and click **Authenticate** next to `spritecook`. In the CLI, type `/plugin`, open **Installed > spritecook** and choose **Sign in**. Antigravity stores and refreshes the sign-in, so there is no API key to paste. Setup also removes an older `spritecook` entry with an API key from `~/.gemini/config/mcp_config.json`, so the tools don't load twice.
 
 ## Environment Variables
 

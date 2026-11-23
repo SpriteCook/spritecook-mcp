@@ -2,7 +2,7 @@
   "name": "spritecook-mcp",
   "version": "0.2.18",
   "mcpName": "ai.spritecook/generate",
-  "description": "SpriteCook MCP Server - Connect Cursor, VS Code, Claude, Codex, Grok Build, and other AI agents to SpriteCook for game asset generation and animation.",
+  "description": "SpriteCook MCP Server - Connect Cursor, VS Code, Claude, Codex, Grok Build, Antigravity, and other AI agents to SpriteCook for game asset generation and animation.",
   "keywords": [
     "spritecook",
     "mcp",
@@ -15,6 +15,7 @@
     "codex",
     "grok",
     "grok-build",
+    "antigravity",
     "vscode",
     "cli"
   ],

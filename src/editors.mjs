@@ -3,6 +3,11 @@ import { join } from 'node:path';
 import { homedir } from 'node:os';
 import { success, warn, info } from './ui.mjs';
 import { getMcpOAuthUrl, getMcpUrl } from './config.mjs';
+import {
+  getAntigravityMcpConfigPaths,
+  getAntigravityPluginDir,
+  installAntigravityPlugin,
+} from './antigravity.mjs';
 
 // ── Read existing key ───────────────────────────────────────────────────
 
@@ -58,10 +63,11 @@ export function readExistingKey() {
   const k4b = tryFile(join(home, '.claude.json'), 'mcpServers', 'spritecook', 'headers', 'Authorization');
   if (k4b) return k4b;
 
-  // Antigravity
-  const antigravity = getAntigravityConfigPath();
-  const k5 = tryFile(antigravity, 'mcpServers', 'spritecook', 'headers', 'Authorization');
-  if (k5) return k5;
+  // Antigravity (older setups wrote an API key here; the plugin uses OAuth)
+  for (const antigravity of getAntigravityMcpConfigPaths(home)) {
+    const k5 = tryFile(antigravity, 'mcpServers', 'spritecook', 'headers', 'Authorization');
+    if (k5) return k5;
+  }
 
   // Windsurf
   const windsurf = getWindsurfConfigPath();
@@ -225,17 +231,24 @@ export function detectEditors() {
   });
 
   // ── Antigravity (Google) ────────────────────────────────────
-  const antigravityPath = getAntigravityConfigPath();
+  // Installs the SpriteCook plugin (MCP server + skills). Antigravity owns the
+  // OAuth sign-in and token refresh, so no API key is written.
+  const antigravityPluginDir = getAntigravityPluginDir(home);
   editors.push({
     name: 'Antigravity',
-    detected: inAntigravity || (antigravityPath ? existsSync(join(antigravityPath, '..')) : false),
+    detected: inAntigravity
+      || existsSync(join(home, '.gemini', 'config'))
+      || existsSync(join(home, '.gemini', 'antigravity')),
     scopes: ['global'],
     defaultScope: 'global',
-    configPath: () => antigravityPath,
-    write: (apiKey) => writeAntigravityConfig(antigravityPath, apiKey),
+    authMode: 'oauth',
+    configPath: () => antigravityPluginDir,
+    write: () => installAntigravityPlugin({ home }),
+    bundlesSkills: true,
     skillDirs: {
-      project: join(cwd, '.agent', 'skills', 'spritecook'),
-      global: join(home, '.gemini', 'antigravity', 'skills', 'spritecook'),
+      // The plugin bundles the skills already.
+      project: null,
+      global: null,
     },
   });
 
@@ -308,8 +321,10 @@ export function writeConfigs(editors, apiKey) {
   for (const editor of editors) {
     try {
       const scope = editor._chosenScope || editor.defaultScope;
-      editor.write(apiKey, scope);
-      const path = typeof editor.configPath === 'function' ? editor.configPath(scope) : editor.configPath;
+      const writtenPath = editor.write(apiKey, scope);
+      const path = typeof writtenPath === 'string'
+        ? writtenPath
+        : typeof editor.configPath === 'function' ? editor.configPath(scope) : editor.configPath;
       success(`${path}`);
       written++;
     } catch (err) {
@@ -422,25 +437,6 @@ function writeClaudeCodeConfig(configPath, apiKey) {
   writeFileSync(configPath, JSON.stringify(config, null, 2) + '\n', 'utf-8');
 }
 
-function writeAntigravityConfig(configPath, apiKey) {
-  if (!configPath) { warn('Antigravity config path not found.'); return; }
-  const mcpUrl = getMcpUrl();
-
-  let config = {};
-  if (existsSync(configPath)) {
-    try { config = JSON.parse(readFileSync(configPath, 'utf-8')); } catch { /* start fresh */ }
-  }
-
-  if (!config.mcpServers) config.mcpServers = {};
-  config.mcpServers.spritecook = {
-    serverUrl: mcpUrl,
-    headers: { Authorization: `Bearer ${apiKey}` },
-  };
-
-  ensureDir(join(configPath, '..'));
-  writeFileSync(configPath, JSON.stringify(config, null, 2) + '\n', 'utf-8');
-}
-
 function writeWindsurfConfig(configPath, apiKey) {
   if (!configPath) { warn('Windsurf config path not found.'); return; }
   const mcpUrl = getMcpUrl();
@@ -515,10 +511,6 @@ export function writeGrokConfig(configPath) {
 }
 
 // ── Path Helpers ────────────────────────────────────────────────────────
-
-function getAntigravityConfigPath() {
-  return join(homedir(), '.gemini', 'antigravity', 'mcp_config.json');
-}
 
 function getClaudeDesktopConfigPath() {
   const platform = process.platform;
